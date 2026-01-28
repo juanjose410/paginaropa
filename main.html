@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda de Ropa</title>
+  <style>
+    /* ======== ESTILOS GENERALES ======== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #111;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #ff9800;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      background-color: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .product-info p {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #666;
+    }
+
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product-info button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #111;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product-info button:hover {
+      background-color: #ff9800;
+    }
+
+    /* ======== CARRITO ======== */
+    .cart {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100vh;
+      background-color: #fff;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .cart.open {
+      transform: translateX(0);
+    }
+
+    .cart h2 {
+      margin-bottom: 15px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .cart-item button {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .cart-total {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .cart-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #ff9800;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 1100;
+    }
+
+    footer {
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======== HEADER ======== -->
+  <header>
+    <h1>ModaExpress</h1>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <h2>La mejor moda para ti</h2>
+  </section>
+
+  <!-- ======== BOTÓN CARRITO ======== -->
+  <button class="cart-toggle" onclick="toggleCart()">🛒 Carrito</button>
+
+  <!-- ======== SECCIÓN PRODUCTOS ======== -->
+  <section class="container" id="productos">
+    <h2 class="section-title">Nuestros Productos</h2>
+    <div class="products">
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=500&q=80" alt="Camiseta" />
+        <div class="product-info">
+          <h3>Camiseta Básica</h3>
+          <p>Algodón 100%, cómoda y fresca.</p>
+          <div class="price">$25.000 COP</div>
+          <button onclick="addToCart('Camiseta Básica', 25000)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=500&q=80" alt="Pantalón" />
+        <div class="product-info">
+          <h3>Pantalón Jeans</h3>
+          <p>Resistente, moderno y cómodo.</p>
+          <div class="price">$70.000 COP</div>
+          <button onclick="addToCart('Pantalón Jeans', 70000)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=500&q=80" alt="Chaqueta" />
+        <div class="product-info">
+          <h3>Chaqueta</h3>
+          <p>Ideal para climas fríos.</p>
+          <div class="price">$120.000 COP</div>
+          <button onclick="addToCart('Chaqueta', 120000)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80" alt="Vestido" />
+        <div class="product-info">
+          <h3>Vestido Casual</h3>
+          <p>Elegante y perfecto para el día a día.</p>
+          <div class="price">$95.000 COP</div>
+          <button onclick="addToCart('Vestido Casual', 95000)">Agregar al carrito</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======== CARRITO ======== -->
+  <div class="cart" id="cart">
+    <h2>Carrito de Compras</h2>
+    <div id="cart-items"></div>
+    <div class="cart-total" id="cart-total">Total: $0 COP</div>
+  </div>
+
+  <!-- ======== FOOTER ======== -->
+  <footer>
+    <p>&copy; 2026 ModaExpress. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- ======== JAVASCRIPT ======== -->
+  <script>
+    let cart = [];
+
+    function toggleCart() {
+      document.getElementById('cart').classList.toggle('open');
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      cartItems.innerHTML = '';
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <span>${item.name} - $${item.price.toLocaleString()} COP</span>
+          <button onclick="removeFromCart(${index})">✖</button>
+        `;
+        cartItems.appendChild(div);
+      });
+
+      document.getElementById('cart-total').innerText = `Total: $${total.toLocaleString()} COP`;
+    }
+  </script>
+
+</body>
+</html>
